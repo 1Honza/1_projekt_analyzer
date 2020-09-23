@@ -29,20 +29,19 @@ garpike and stingray are also present.''']
 
 # REGISTROVANI UYIVATELE
 
-odelovac = '=' * 50
-print(odelovac)
-print('Registrováni jsou tito uživatelé:')
-print(odelovac)
-print('''
-| USER |   PASSWORD  |
------------------------ 
-| bob  |     123     |
-| ann  |   pass123   | 
-| mike | password123 | 
-| liz  |   pass123   |
-''')
+#print('Registrováni jsou tito uživatelé:')
+
+#| USER |   PASSWORD  |
+#-----------------------
+#| bob  |     123     |
+#| ann  |   pass123   |
+#| mike | password123 |
+#| liz  |   pass123   |
+
 
 # PRIHLASENI UYIVATELE
+
+odelovac = '=' * 50
 
 print(odelovac)
 print('Pro vstup je nutno zadat prihlasovaci udaje.')
@@ -52,85 +51,103 @@ heslo = input('zadej sve heslo: ')
 print(odelovac)
 jmena_hesla = {'bob': '123', 'ann': 'pass123', 'mike': 'password123', 'liz': 'pass123'}
 
-if jmena_hesla.get(jmeno) == heslo:
-    print('prihlaseni je v poradku')
-    print(odelovac)
+if jmena_hesla.get(jmeno) != heslo:
+    print('prihlaseni se nezdarilo')
+    exit()
+
+print('prihlaseni je v poradku')
+print(odelovac)
 
 # VYBER TEXTU
 
-    text = int(input('zvol si cislo textu: 1, 2, 3: '))
-    print(odelovac)
+text = int(input('zvol si cislo textu: 1, 2, 3: '))
+print(odelovac)
 
-    if text == 1:
-        print(TEXTS[0])
-        print(odelovac)
-        text_1 = TEXTS[0]
-    elif text == 2:
-        print(TEXTS[1])
-        print(odelovac)
-        text_1 = TEXTS[1]
-    elif text == 3:
-        print(TEXTS[2])
-        print(odelovac)
-        text_1 = TEXTS[2]
+if text == 1:
+    print(TEXTS[0])
+    print(odelovac)
+    text_1 = TEXTS[0]
+elif text == 2:
+    print(TEXTS[1])
+    print(odelovac)
+    text_1 = TEXTS[1]
+elif text == 3:
+    print(TEXTS[2])
+    print(odelovac)
+    text_1 = TEXTS[2]
+elif text > 3:
+    print('SPATNY VYBER TEXTU')
+    exit()
 
 # ROZDELENI TEXTU A SPOCITANI SLOV
 
-    text_3 = text_1.split()
-    pocet_slov = len(text_3)
-    print('V textu je: ',pocet_slov,'slov')
+text_3 = text_1.split()
+pocet_slov = len(text_3)
+print('V textu je: ',pocet_slov,'slov')
 
 # OCISTENI ROZDELENYCH SLOV OD ZNAKU
 
-    text_2 = []
-    while text_3:
-        slovo = text_3.pop()
-        slovo = slovo.strip('.,:/;')
-        if slovo:
-            text_2.append(slovo)
+text_2 = []
+while text_3:
+    slovo = text_3.pop()
+    slovo = slovo.strip('.,:/;')
+    if slovo:
+        text_2.append(slovo)
 
-    velke_pismeno = 0
-    mala = 0
-    velka = 0
-    cisla = 0
-    soucet = 0
-    i = 0
+velke_pismeno = 0
+mala = 0
+velka = 0
+cisla = 0
+soucet = 0
+graf = {}
+
+i = 0
 
 # SPOCITANI KOLIKRAT JE VYSKYT SLOV: PRVNI VELKE PISMENO, VELKE PISMO, MALE PISMO, CISEL, SOUCET CISEL
 
-    while i < len(text_2):
-        if text_2[i].istitle():
-            velke_pismeno = velke_pismeno + 1
-        elif text_2[i].isupper():
-            velka = velka + 1
-        elif text_2[i].islower():
-            mala = mala + 1
-        elif text_2[i].isnumeric():
-            cisla = cisla + 1
-            soucet = soucet + float(text_2[i])
+while i < len(text_2):
+    if text_2[i].istitle():
+        velke_pismeno = velke_pismeno + 1
+    elif text_2[i].isupper():
+        velka = velka + 1
+    elif text_2[i].islower():
+        mala = mala + 1
+    elif text_2[i].isnumeric():
+        cisla = cisla + 1
+        soucet = soucet + float(text_2[i])
 
-        i = i + 1
+    d = len(text_2[i])
+    graf[d] = graf.get(d,0) + 1
 
-    print('Pocet slov: ', velke_pismeno,' zacinajicim velkym pismenem')
-    print('Pocet slov: ', velka,' velkym pismem')
-    print('Pocet slov: ', mala, ' malym pismem')
-    print('Pocet cisel: ',cisla)
-    print(odelovac)
+    i = i + 1
+
+print('Pocet slov: ', velke_pismeno,' zacinajicim velkym pismenem')
+print('Pocet slov: ', velka,' velkym pismem')
+print('Pocet slov: ', mala, ' malym pismem')
+print('Pocet cisel: ',cisla)
+print(odelovac)
 
 # ZOBRAZENI GRAFU
 
-    a = 0
-    b = 0
-    while text_2:
-        b = len(text_2.pop())
-        a += 1
-        print(a, '*' * b, b)
-    print(odelovac)
-    print('celkovy soucet cisel v textu je: ',soucet)
-    print(odelovac)
+delka = sorted(graf)
 
-else:
-    print('prihlaseni se nezdarilo')
+i = 0
+while i < len(delka):
+    delka_1 = delka[i]
+    kolik = graf[delka_1]
+
+    if len(str(delka_1)) == 1:
+        delky = ' ' + str(delka_1)
+    else:
+        delky = delka_1
+    print(delky, '*' * kolik, kolik)
+    i = i + 1
+
+# CELKOVY SOUCET
+
+print(odelovac)
+print('celkovy soucet cisel v textu je: ',soucet)
+print(odelovac)
 
 
 
